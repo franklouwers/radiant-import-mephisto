@@ -41,6 +41,7 @@ class MephistoImport
       end
       page.parent = @parent
       if page.save
+          page.tag_with [article.tag_names,article.section_names].join(',').split(',').uniq.compact.join(';')
         pages << page.id
       else
         @@errors[page] = page.errors 
