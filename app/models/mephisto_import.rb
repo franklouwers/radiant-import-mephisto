@@ -41,7 +41,10 @@ class MephistoImport
       end
       page.parent = @parent
       if page.save
-          page.tag_with [article.tag_names,article.section_names].join(',').split(',').uniq.compact.join(';')
+          #see if we have the tags extension loaded
+          if page.respond_to?(:tag_with)
+            page.tag_with [article.tag_names,article.section_names].join(',').split(',').uniq.compact.join(';')
+        end
         pages << page.id
       else
         @@errors[page] = page.errors 
