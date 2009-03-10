@@ -4,7 +4,7 @@ class MephistoArticle < ActiveRecord::Base
   set_table_name :contents
   self.inheritance_column = nil
  
-  has_many :comments, :conditions => ["type = ?",'Comment'], :class_name => 'MephistoComment', :foreign_key => 'article_id'
+  has_many :comments, :conditions => ["type = ? and approved = 1",'Comment'], :class_name => 'MephistoComment', :foreign_key => 'article_id'
   
              
   has_many :tags, :class_name => 'MephistoTag', 
@@ -40,7 +40,7 @@ class MephistoArticle < ActiveRecord::Base
       :breadcrumb      => title,
       :published_at    => published_at, 
       :enable_comments => true,
-      :keywords        => [tag_names,section_names].join(',').split(',').uniq.compact.join(','),
+      :keywords        => [tag_names].join(',').split(',').uniq.compact.join(','),
       :created_by_id   => MephistoUser.id_mappings[user_id],
       :updated_by_id   => MephistoUser.id_mappings[updater_id]
     )
